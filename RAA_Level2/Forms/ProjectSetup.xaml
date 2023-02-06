@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="txbFilePath" Grid.Column="0" Height="30" VerticalContentAlignment="Center"/>
-                <Button x:Name="btnSelect" Grid.Column="1" Content="Select..." Height="30" Width="80" HorizontalAlignment="Right" Margin="5,0,0,0" Click="btnSelect_Click"/>
+                <Button x:Name="btnSelect" Grid.Column="1" Content="Select..." Height="30" Width="80" HorizontalAlignment="Right" Click="btnSelect_Click"/>
             </Grid>
         </StackPanel>
         
@@ -38,16 +38,16 @@
         <StackPanel Grid.Row="2" Margin="10">
             <Label Content="Select Units:" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="rbnImperial" GroupName="Units" Content="Imperial" IsChecked="True" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
-                <RadioButton x:Name="rbnMetric" GroupName="Units" Content="Metric"  VerticalContentAlignment="Center" Margin="20,0,0,0"/>
+                <RadioButton x:Name="rbnImperial" GroupName="Units" Content="Imperial" IsChecked="True" VerticalContentAlignment="Center" Margin="5,0,20,0"/>
+                <RadioButton x:Name="rbnMetric" GroupName="Units" Content="Metric"  VerticalContentAlignment="Center"/>
             </StackPanel>
         </StackPanel>
         
         <!-- Views Picker -->
         <StackPanel Grid.Row="3" Margin="10">
             <Label Content="Select Views to Create:" FontWeight="Bold"/>
-            <CheckBox x:Name="cbxCreateFloorPlans" Content="Create Floor Plans" Margin="5,0,0,0"/>
-            <CheckBox x:Name="cbxCreateRCPs" Content="Create Reflected Ceiling Plans" Margin="5,0,0,0"/>
+            <CheckBox x:Name="cbxCreateFloorPlans" Content="Create Floor Plans" IsChecked="True" Margin="5,0,0,5"/>
+            <CheckBox x:Name="cbxCreateRCPs" Content="Create Reflected Ceiling Plans" IsChecked="True" Margin="5,0,0,0"/>
         </StackPanel>
         
         <!-- Footer -->
