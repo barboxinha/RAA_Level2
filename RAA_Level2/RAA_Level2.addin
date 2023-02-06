@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command RAA_Level2</Text>
+    <Description>Some description for RAA_Level2</Description>
+    <Assembly>RAA_Level2.dll</Assembly>
+    <FullClassName>RAA_Level2.Command</FullClassName>
+    <ClientId>5a43024c-0840-4b8f-b1a2-fc7f39b1b44e</ClientId>
+    <VendorId>com.SmithGroup</VendorId>
+    <VendorDescription>SmithGroup, https://www.smithgroup.com/</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application RAA_Level2</Name>
+    <Assembly>RAA_Level2.dll</Assembly>
+    <FullClassName>RAA_Level2.App</FullClassName>
+    <ClientId>654d1e30-c160-4b47-b59a-fa10aeda1c1d</ClientId>
+    <VendorId>com.SmithGroup</VendorId>
+    <VendorDescription>SmithGroup, https://www.smithgroup.com/</VendorDescription>
+  </AddIn>
+</RevitAddIns>
