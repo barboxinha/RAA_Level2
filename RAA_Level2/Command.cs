@@ -36,10 +36,8 @@ namespace RAA_Level2
                 WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 Topmost = true,
             };
-            
-            win.ShowDialog();
 
-            if (win.DialogResult == false)
+            if (win.ShowDialog() == false)
             {
                 return Result.Cancelled;
             }
@@ -71,6 +69,11 @@ namespace RAA_Level2
 
                     if (isNumber)
                     {
+                        if (win.Units == ProjectUnits.Metric)
+                        {
+                            levelElevation = ConvertMetricToImperial(levelElevation);
+                        }
+
                         // Check Level with same elevation does not exist
                         if (!existingElevations.Contains(levelElevation))
                         {
@@ -135,6 +138,11 @@ namespace RAA_Level2
             }
 
             return Result.Succeeded;
+        }
+
+        private double ConvertMetricToImperial(double metricNumber)
+        {
+            return metricNumber * 3.28084;
         }
 
         private ViewFamilyType GetViewFamilyTypeByName(Document doc, string typeName, ViewFamily viewFamily)

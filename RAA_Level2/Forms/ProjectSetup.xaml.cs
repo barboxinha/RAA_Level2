@@ -15,7 +15,6 @@ namespace RAA_Level2
         private string _selectedFile = "";
         private List<string[]> _fileData;
         private ProjectUnits _projectUnits;
-        //private readonly List<KeyValuePair<string, bool>> _viewsToCreate;
 
         public ProjectSetup()
         {
@@ -53,7 +52,8 @@ namespace RAA_Level2
         {
             OpenFileDialog openFile = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Recent),
+                RestoreDirectory = true,
+                Multiselect = false,
                 Filter = "csv files (*.csv)|*.csv"
             };
 
