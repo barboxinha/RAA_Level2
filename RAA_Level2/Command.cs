@@ -106,17 +106,17 @@ namespace RAA_Level2
                 {
                     if (newLevels.Count > 0)
                     {
-                        string msg = $"New Levels created: {newLevels.Count}";
+                        string msg = $"Levels created: {newLevels.Count}";
 
                         if (newFloorPlans.Count > 0)
                         {
-                            string plansMsg = $"\n\nNew Floor Plan views created: {newFloorPlans.Count}";
+                            string plansMsg = $"\n\nFloor Plan views created: {newFloorPlans.Count}";
                             msg += plansMsg;
                         }
 
                         if (newRCPs.Count > 0)
                         {
-                            string rcpsMsg = $"\n\nNew Reflected Ceiling Plan views created: {newRCPs.Count}";
+                            string rcpsMsg = $"\n\nReflected Ceiling Plan views created: {newRCPs.Count}";
                             msg += rcpsMsg;
                         }
 
