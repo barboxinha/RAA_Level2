@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Classes\ButtonDataClass.cs" />
-    <Compile Include="Command.cs" />
+    <Compile Include="ProjectSetupCommand.cs" />
     <Compile Include="Forms\ProjectSetup.xaml.cs">
       <DependentUpon>ProjectSetup.xaml</DependentUpon>
     </Compile>
