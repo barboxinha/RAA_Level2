@@ -21,26 +21,16 @@ namespace RAA_Level2
     /// <summary>
     /// Interaction logic for Window.xaml
     /// </summary>
-    public partial class ViewRenumber : Window
+    public partial class ViewRenumberResults : Window
     {
-        public ViewRenumber()
+        public ViewRenumberResults()
         {
             InitializeComponent();
         }
 
-        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void btnOK_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }
