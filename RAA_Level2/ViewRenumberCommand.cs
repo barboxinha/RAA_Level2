@@ -43,24 +43,46 @@ namespace RAA_Level2
                 return Result.Cancelled;
             }
 
-            List<Viewport> renumberViewports = null;
+            List<Viewport> renumberViewports;
 
             Autodesk.Revit.DB.View activeView = doc.ActiveView;
 
             if ((activeView != null) && (activeView.ViewType == ViewType.DrawingSheet))
             {
-                do
+                // ***** Select viewports individually in order. *****
+                renumberViewports = new List<Viewport>();
+                bool SELECTION_IN_PROCESS = true;
+
+                while (SELECTION_IN_PROCESS)
                 {
                     try
                     {
-                        renumberViewports = SelectSheetViewports(uidoc, doc);
+                        Viewport selectedViewport = SelectSheetViewport(uidoc, doc);
+
+                        if (selectedViewport != null)
+                        {
+                            renumberViewports.Add(selectedViewport);
+                        }
                     }
                     catch (Autodesk.Revit.Exceptions.OperationCanceledException)
                     {
-                        TaskDialog.Show("Incomplete Selection", "Click 'Finish' to complete viewport selection.");
+                        SELECTION_IN_PROCESS = false;
                     }
+                }
+
+                // ***** Selection Order is NOT being maintained with this multi-select approach. *****
+                //do
+                //{
+                //    try
+                //    {
+                //        renumberViewports = SelectSheetViewports(uidoc, doc);
+                //    }
+                //    catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                //    {
+                //        TaskDialog.Show("Incomplete Selection", "Click 'Finish' to complete viewport selection.");
+                //    }
                     
-                } while (renumberViewports == null);
+                //} while (renumberViewports == null);
             }
             else
             {
@@ -69,12 +91,17 @@ namespace RAA_Level2
             }
 
             // Show window with user selections.
-            ViewRenumber win2 = new ViewRenumber(doc, renumberViewports);
+            ViewRenumber win2 = new ViewRenumber(doc, renumberViewports)
+            {
+                Width = 470,
+                Height = 500,
+                WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
+                Topmost = true,
+            };
 
             win2.ShowDialog();
-            win2.btnSelect.IsEnabled = false;
 
-            if (win.DialogResult == false)
+            if (win2.DialogResult == false)
             {
                 return Result.Cancelled;
             }
@@ -82,7 +109,18 @@ namespace RAA_Level2
             return Result.Succeeded;
         }
 
-        public List<Viewport> SelectSheetViewports(UIDocument uidoc, Document doc) 
+        private Viewport SelectSheetViewport(UIDocument uidoc, Document doc)
+        {
+            Viewport selectedViewport;
+
+            ISelectionFilter selFilter = new ViewportSelectionFilter();
+            Reference pickedRef = uidoc.Selection.PickObject(ObjectType.Element, selFilter, "Pick viewports in order. Hit 'ESC' when finished...");
+            selectedViewport = doc.GetElement(pickedRef) as Viewport;
+
+            return selectedViewport;
+        }
+
+        private List<Viewport> SelectSheetViewports(UIDocument uidoc, Document doc) 
         {
             List<Viewport> selectedViewports = new List<Viewport>();
 

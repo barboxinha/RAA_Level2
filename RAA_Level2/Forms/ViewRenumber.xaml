@@ -41,7 +41,10 @@
             </Grid.ColumnDefinitions>
             <ListBox x:Name="lbxPickedViews" Grid.Column="0"
                      MinHeight="130"
-                     BorderThickness="2" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                     BorderThickness="2"
+                     FontStyle="Italic"
+                     d:ItemsSource="{d:SampleData ItemCount=5}"
+                     ToolTip="Viewports to renumber"/>
             <Button x:Name="btnSelect" Grid.Column="1" Content="Select..." 
                     Width="80" Height="30" 
                     HorizontalAlignment="Right" 

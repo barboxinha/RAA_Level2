@@ -27,18 +27,21 @@ namespace RAA_Level2
 
                 foreach (Viewport viewport in renumberViewports)
                 {
-                    string viewportNumber = viewport.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER).ToString();
-                    string viewportName = viewport.Name;
-                    string viewportItem = $"{viewportNumber} - {viewportName}";
+                    string vportDetailNumber = viewport.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER).AsString();
+                    string vportViewName = viewport.get_Parameter(BuiltInParameter.VIEWPORT_VIEW_NAME).AsString();
+                    string viewportItem = $"{vportDetailNumber} - {vportViewName}";
 
                     lbxPickedViews.Items.Add(viewportItem);
                 }
+
+                btnSelect.IsEnabled = false;
             }
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+            this.Close();
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
