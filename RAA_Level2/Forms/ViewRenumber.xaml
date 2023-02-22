@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RAA_Level2"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="470" MinWidth="470"
+             d:DesignHeight="450" d:DesignWidth="470" MinWidth="470" MinHeight="450"
              Title="Revit Add-in Academy" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
@@ -31,7 +31,7 @@
         <!-- Controls -->
         <!-- Picked View List -->
         <Label Grid.Row="1" Content="Click 'Select...' then Pick Views to Renumber in Order:" 
-               HorizontalAlignment="Left" 
+               HorizontalAlignment="Left"
                FontWeight="Bold" 
                Margin="10"/>
         <Grid Grid.Row="2" Margin="10,0,10,10">
@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
             <ListBox x:Name="lbxPickedViews" Grid.Column="0"
-                     MinHeight="130" 
+                     MinHeight="130"
                      BorderThickness="2" d:ItemsSource="{d:SampleData ItemCount=5}"/>
             <Button x:Name="btnSelect" Grid.Column="1" Content="Select..." 
                     Width="80" Height="30" 

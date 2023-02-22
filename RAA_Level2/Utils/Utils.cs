@@ -30,5 +30,14 @@ namespace RAA_Level2
 
             return null;
         }
+
+        internal static ForgeTypeId GetDocumentUnits(Document doc) 
+        {
+            Units units = doc.GetUnits();
+            FormatOptions formatOps = units.GetFormatOptions(SpecTypeId.Length);
+            ForgeTypeId unitTypeId = formatOps.GetUnitTypeId();
+
+            return unitTypeId;
+        }
     }
 }

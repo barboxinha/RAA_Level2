@@ -1,18 +1,8 @@
 ﻿#region Namespaces
-using System;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes; 
 #endregion
 
 
@@ -23,19 +13,42 @@ namespace RAA_Level2
     /// </summary>
     public partial class ViewRenumber : Window
     {
-        public ViewRenumber()
+        public List<Viewport> RenumberViewports { get; set; }
+        public Document Document { get; }
+
+        public ViewRenumber(Document doc, List<Viewport> renumberViewports)
         {
             InitializeComponent();
+            Document = doc;
+
+            if (renumberViewports != null)
+            {
+                RenumberViewports = renumberViewports;
+
+                foreach (Viewport viewport in renumberViewports)
+                {
+                    string viewportNumber = viewport.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER).ToString();
+                    string viewportName = viewport.Name;
+                    string viewportItem = $"{viewportNumber} - {viewportName}";
+
+                    lbxPickedViews.Items.Add(viewportItem);
+                }
+            }
         }
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = true;
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-
+            // Renumber All Selected Viewports and Display Results window
+            if (lbxPickedViews.Items.Count == 0)
+            {
+                TaskDialog.Show("Warning", "No viewports have been selected yet...");
+                return;
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

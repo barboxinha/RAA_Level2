@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Utils\CommandAvailability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Classes\Filters\ViewportSelectionFilter.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="Forms\MyForm.xaml.cs">
       <DependentUpon>MyForm.xaml</DependentUpon>
