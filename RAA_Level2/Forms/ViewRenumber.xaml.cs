@@ -1,7 +1,9 @@
 ﻿#region Namespaces
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 #endregion
 
@@ -13,7 +15,6 @@ namespace RAA_Level2
     /// </summary>
     public partial class ViewRenumber : Window
     {
-        public List<Viewport> RenumberViewports { get; set; }
         public Document Document { get; }
 
         public ViewRenumber(Document doc, List<Viewport> renumberViewports)
@@ -23,8 +24,7 @@ namespace RAA_Level2
 
             if (renumberViewports != null)
             {
-                RenumberViewports = renumberViewports;
-
+                // Populate selected detail viewports
                 foreach (Viewport viewport in renumberViewports)
                 {
                     string vportDetailNumber = viewport.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER).AsString();
@@ -34,6 +34,16 @@ namespace RAA_Level2
                     lbxPickedViews.Items.Add(viewportItem);
                 }
 
+                // Populate renumber start sequence
+                var sequence = Enumerable.Range(0, 51);
+
+                foreach (int num in sequence)
+                {
+                    string strNum = Convert.ToString(num);
+                    cmbSequenceStart.Items.Add(strNum);
+                }
+
+                cmbSequenceStart.SelectedIndex = 0;
                 btnSelect.IsEnabled = false;
             }
         }
@@ -52,11 +62,21 @@ namespace RAA_Level2
                 TaskDialog.Show("Warning", "No viewports have been selected yet...");
                 return;
             }
+
+            DialogResult = true;
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        internal int GetRenumberSequenceStart() 
+        {
+            var selectedSequenceStart = cmbSequenceStart.SelectedItem;
+
+            return Convert.ToInt32(selectedSequenceStart);
         }
     }
 }

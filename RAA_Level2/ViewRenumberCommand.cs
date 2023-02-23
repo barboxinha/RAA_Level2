@@ -1,7 +1,6 @@
 ﻿#region Namespaces
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.Exceptions;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using RAA_Level2.Classes.Filters;
@@ -87,13 +86,14 @@ namespace RAA_Level2
             else
             {
                 TaskDialog.Show("Error - Incorrect View Type", "The active view is not a Sheet.");
+
                 return Result.Cancelled;
             }
 
             // Show window with user selections.
             ViewRenumber win2 = new ViewRenumber(doc, renumberViewports)
             {
-                Width = 470,
+                Width = 620,
                 Height = 500,
                 WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 Topmost = true,
@@ -104,6 +104,31 @@ namespace RAA_Level2
             if (win2.DialogResult == false)
             {
                 return Result.Cancelled;
+            }
+
+            // Start detail viewport renumbering
+            int renumberSequenceStart = win2.GetRenumberSequenceStart();
+
+            TransactionGroup transGroup = new TransactionGroup(doc, "View Renumber");
+            try
+            {
+                transGroup.Start();
+
+                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart, "zz");
+                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart);
+
+                transGroup.Assimilate();
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error - Could Not Renumber", ex.Message);
+                transGroup.RollBack();
+
+                return Result.Failed;
+            }
+            finally
+            {
+                transGroup.Dispose();
             }
 
             return Result.Succeeded;
@@ -134,6 +159,30 @@ namespace RAA_Level2
             }
 
             return selectedViewports;
+        }
+
+        private void RenumberSheetViews(Document doc, List<Viewport> detailViews, int sequenceStart, string prefix=null) 
+        {
+            var renumberSequence = Enumerable.Range(sequenceStart, detailViews.Count);
+
+            Transaction t = new Transaction(doc, "Renumber View");
+
+            t.Start();
+
+            foreach (var detail in detailViews.Zip(renumberSequence, (View, Num) => (View, Num)))
+            {
+                Parameter paramDetailNumber = detail.View.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER);
+                string newDetailNum = Convert.ToString(detail.Num);
+
+                if (prefix != null)
+                {
+                    newDetailNum = prefix + newDetailNum;
+                }
+
+                paramDetailNumber.Set(newDetailNum);
+            }
+
+            t.Commit();
         }
 
         public static String GetMethod()
