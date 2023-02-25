@@ -8,10 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Forms;
 
 #endregion
 
@@ -26,6 +22,15 @@ namespace RAA_Level2
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
+
+            View activeView = doc.ActiveView;
+
+            if ((activeView == null) || (activeView.ViewType != ViewType.DrawingSheet))
+            {
+                TaskDialog.Show("Error - Incorrect View Type", "The active view is not a Sheet.");
+
+                return Result.Cancelled;
+            }
 
             ViewRenumber win = new ViewRenumber(doc, null) 
             {
@@ -42,58 +47,46 @@ namespace RAA_Level2
                 return Result.Cancelled;
             }
 
-            List<Viewport> renumberViewports;
+            List<Viewport> renumberViewports = new List<Viewport>();
 
-            Autodesk.Revit.DB.View activeView = doc.ActiveView;
+            // ***** Select viewports individually in order. *****
+            bool SELECTION_IN_PROCESS = true;
 
-            if ((activeView != null) && (activeView.ViewType == ViewType.DrawingSheet))
+            while (SELECTION_IN_PROCESS)
             {
-                // ***** Select viewports individually in order. *****
-                renumberViewports = new List<Viewport>();
-                bool SELECTION_IN_PROCESS = true;
-
-                while (SELECTION_IN_PROCESS)
+                try
                 {
-                    try
-                    {
-                        Viewport selectedViewport = SelectSheetViewport(uidoc, doc);
+                    Viewport selectedViewport = SelectSheetViewport(uidoc, doc);
 
-                        if (selectedViewport != null)
-                        {
-                            renumberViewports.Add(selectedViewport);
-                        }
-                    }
-                    catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                    if (selectedViewport != null)
                     {
-                        SELECTION_IN_PROCESS = false;
+                        renumberViewports.Add(selectedViewport);
                     }
                 }
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                {
+                    SELECTION_IN_PROCESS = false;
+                }
+            }
 
-                // ***** Selection Order is NOT being maintained with this multi-select approach. *****
-                //do
-                //{
-                //    try
-                //    {
-                //        renumberViewports = SelectSheetViewports(uidoc, doc);
-                //    }
-                //    catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-                //    {
-                //        TaskDialog.Show("Incomplete Selection", "Click 'Finish' to complete viewport selection.");
-                //    }
+            // ***** Selection Order is NOT being maintained with this multi-select approach. *****
+            //do
+            //{
+            //    try
+            //    {
+            //        renumberViewports = SelectSheetViewports(uidoc, doc);
+            //    }
+            //    catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+            //    {
+            //        TaskDialog.Show("Incomplete Selection", "Click 'Finish' to complete viewport selection.");
+            //    }
                     
-                //} while (renumberViewports == null);
-            }
-            else
-            {
-                TaskDialog.Show("Error - Incorrect View Type", "The active view is not a Sheet.");
-
-                return Result.Cancelled;
-            }
+            //} while (renumberViewports == null);
 
             // Show window with user selections.
             ViewRenumber win2 = new ViewRenumber(doc, renumberViewports)
             {
-                Width = 620,
+                Width = 700,
                 Height = 500,
                 WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 Topmost = true,
@@ -115,7 +108,10 @@ namespace RAA_Level2
                 transGroup.Start();
 
                 RenumberSheetViews(doc, renumberViewports, renumberSequenceStart, "zz");
-                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart);
+
+                List<Viewport> renumberAgain = renumberViewports;
+
+                RenumberSheetViews(doc, renumberAgain, renumberSequenceStart);
 
                 transGroup.Assimilate();
             }
@@ -130,6 +126,16 @@ namespace RAA_Level2
             {
                 transGroup.Dispose();
             }
+
+            ViewRenumberResults winResults = new ViewRenumberResults(renumberViewports) 
+            {
+                Width = 470,
+                Height = 450,
+                WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
+                Topmost = true,
+            };
+
+            winResults.ShowDialog();
 
             return Result.Succeeded;
         }

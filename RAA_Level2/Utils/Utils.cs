@@ -39,5 +39,38 @@ namespace RAA_Level2
 
             return unitTypeId;
         }
+
+        internal static object GetBuiltinParameterValue(Element element, BuiltInParameter parameterId) 
+        {
+            object parameterValue;
+
+            Parameter builtinParameter = element.get_Parameter(parameterId);
+            StorageType storageType = builtinParameter.StorageType;
+
+            switch (storageType)
+            {
+                case StorageType.String:
+                    parameterValue = builtinParameter.AsString();
+                    break;
+
+                case StorageType.Integer:
+                    parameterValue = builtinParameter.AsInteger();
+                    break;
+
+                case StorageType.Double:
+                    parameterValue = builtinParameter.AsDouble();
+                    break;
+
+                case StorageType.ElementId:
+                    parameterValue = builtinParameter.AsElementId();
+                    break;
+
+                default:
+                    parameterValue = null;
+                    break;
+            }
+
+            return parameterValue;
+        }
     }
 }

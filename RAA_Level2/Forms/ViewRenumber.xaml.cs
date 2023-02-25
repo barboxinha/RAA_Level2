@@ -27,9 +27,10 @@ namespace RAA_Level2
                 // Populate selected detail viewports
                 foreach (Viewport viewport in renumberViewports)
                 {
-                    string vportDetailNumber = viewport.get_Parameter(BuiltInParameter.VIEWPORT_DETAIL_NUMBER).AsString();
-                    string vportViewName = viewport.get_Parameter(BuiltInParameter.VIEWPORT_VIEW_NAME).AsString();
-                    string viewportItem = $"{vportDetailNumber} - {vportViewName}";
+                    string vportId = Convert.ToString(viewport.Id.IntegerValue);
+                    string vportDetailNumber = Utils.GetBuiltinParameterValue(viewport, BuiltInParameter.VIEWPORT_DETAIL_NUMBER).ToString();
+                    string vportViewName = Utils.GetBuiltinParameterValue(viewport, BuiltInParameter.VIEWPORT_VIEW_NAME).ToString();
+                    string viewportItem = $"{vportId} | {vportDetailNumber} - {vportViewName}";
 
                     lbxPickedViews.Items.Add(viewportItem);
                 }
@@ -56,7 +57,6 @@ namespace RAA_Level2
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            // Renumber All Selected Viewports and Display Results window
             if (lbxPickedViews.Items.Count == 0)
             {
                 TaskDialog.Show("Warning", "No viewports have been selected yet...");
