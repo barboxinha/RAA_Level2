@@ -1,0 +1,47 @@
+﻿<Window x:Class="RAA_Level2.ViewRenumberResults"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RAA_Level2"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="470" MinWidth="470" MinHeight="450"
+             Title="Revit Add-in Academy" FontSize="14" Background="#FFF3EFEA">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Label Grid.Row="0" Content="Renumber Results" 
+               HorizontalAlignment="Left" 
+               FontSize="40" FontWeight="DemiBold" 
+               Margin="10"/>
+        <Separator Grid.Row="0" Width="340" Height="5" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Bottom" 
+                   Margin="10,0,0,0"/>
+
+        <!-- Results View List -->
+        <ListBox x:Name="lbxResults" Grid.Row="1"
+                 MinHeight="130" 
+                 BorderThickness="2"
+                 FontStyle="Italic"
+                 d:ItemsSource="{d:SampleData ItemCount=5}"
+                 Margin="10"/>
+
+        <!-- Footer -->
+        <Button x:Name="btnClose" Grid.Row="2" Content="Close" 
+            Width="80" Height="30" 
+            HorizontalAlignment="Right"
+            Click="btnClose_Click" 
+            Margin="10"/>
+        <StatusBar Grid.Row="3">
+            <StatusBarItem Background="SlateGray"/>
+        </StatusBar>
+
+    </Grid>
+</Window>
