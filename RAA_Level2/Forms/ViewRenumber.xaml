@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RAA_Level2"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="470" MinWidth="470" MinHeight="470"
-             Title="Revit Add-in Academy" FontSize="14" Background="#FFF3EFEA">
+             Title="Revit Add-in Academy" FontSize="14" Background="#f5f5f5">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

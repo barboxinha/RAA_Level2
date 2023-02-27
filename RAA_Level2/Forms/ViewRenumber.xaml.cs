@@ -30,7 +30,7 @@ namespace RAA_Level2
                     string vportId = Convert.ToString(viewport.Id.IntegerValue);
                     string vportDetailNumber = Utils.GetBuiltinParameterValue(viewport, BuiltInParameter.VIEWPORT_DETAIL_NUMBER).ToString();
                     string vportViewName = Utils.GetBuiltinParameterValue(viewport, BuiltInParameter.VIEWPORT_VIEW_NAME).ToString();
-                    string viewportItem = $"{vportId} | {vportDetailNumber} - {vportViewName}";
+                    string viewportItem = $"{vportDetailNumber} - {vportViewName} ({vportId})";
 
                     lbxPickedViews.Items.Add(viewportItem);
                 }
