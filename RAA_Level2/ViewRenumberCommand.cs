@@ -107,11 +107,8 @@ namespace RAA_Level2
             {
                 transGroup.Start();
 
-                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart, "zz");
-
-                List<Viewport> renumberAgain = renumberViewports;
-
-                RenumberSheetViews(doc, renumberAgain, renumberSequenceStart);
+                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart, "zzz");
+                RenumberSheetViews(doc, renumberViewports, renumberSequenceStart);
 
                 transGroup.Assimilate();
             }
