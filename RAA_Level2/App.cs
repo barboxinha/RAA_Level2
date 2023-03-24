@@ -31,8 +31,8 @@ namespace RAA_Level2
             RibbonPanel panel = Utils.CreateRibbonPanel(app, "Revit Add-in Academy", "Revit Tools");
 
             // 3. Create button data instances
-            ButtonDataClass projectSetupButtonData = new ButtonDataClass("ProjectSetup", "Project\nSetup", ProjectSetupCommand.GetMethod(), Properties.Resources.Blue_32, Properties.Resources.Blue_16, "Setup initial Levels and Views from a CSV file.");
-            ButtonDataClass viewRenumberButtonData = new ButtonDataClass("ViewRenumber", "View\nRenumber", ViewRenumberCommand.GetMethod(), Properties.Resources.Yellow_32, Properties.Resources.Yellow_16, "Renumber views in a sheet.");
+            ButtonDataClass projectSetupButtonData = new ButtonDataClass("ProjectSetup", "Project\rSetup", ProjectSetupCommand.GetMethod(), Properties.Resources.Blue_32, Properties.Resources.Blue_16, "Setup initial Levels and Views from a CSV file.");
+            ButtonDataClass viewRenumberButtonData = new ButtonDataClass("ViewRenumber", "View\rRenumber", ViewRenumberCommand.GetMethod(), Properties.Resources.Yellow_32, Properties.Resources.Yellow_16, "Renumber views in a sheet.");
 
             // 4. Create buttons
             PushButton projectSetupButton = panel.AddItem(projectSetupButtonData.Data) as PushButton;

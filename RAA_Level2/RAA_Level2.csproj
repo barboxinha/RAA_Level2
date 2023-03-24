@@ -59,12 +59,16 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Classes\ButtonDataClass.cs" />
+    <Compile Include="Forms\SheetMakerView.xaml.cs">
+      <DependentUpon>SheetMakerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ViewRenumberResults.xaml.cs">
       <DependentUpon>ViewRenumberResults.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\ViewRenumber.xaml.cs">
       <DependentUpon>ViewRenumber.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\SheetMakerModel.cs" />
     <Compile Include="ProjectSetupCommand.cs" />
     <Compile Include="Forms\ProjectSetup.xaml.cs">
       <DependentUpon>ProjectSetup.xaml</DependentUpon>
@@ -81,6 +85,8 @@
     <Compile Include="Forms\MyForm.xaml.cs">
       <DependentUpon>MyForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SheetMakerCommand.cs" />
+    <Compile Include="ViewModels\SheetMakerViewModel.cs" />
     <Compile Include="ViewRenumberCommand.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +101,10 @@
     <EmbeddedResource Include="Resources\Blue_16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Forms\SheetMakerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\ViewRenumberResults.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,6 +120,10 @@
     <Page Include="Forms\MyForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
