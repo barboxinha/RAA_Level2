@@ -1,4 +1,6 @@
 ﻿#region Namespaces
+using Autodesk.Revit.UI;
+using RAA_Level2.Utilities.BaseClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace RAA_Level2.Models
 {
-    public class SheetMakerModel
+    public class SheetMakerModel : ModelBase
     {
-        public SheetMakerModel() 
+        public SheetMakerModel(UIApplication uiApp) : base(uiApp) 
         { 
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RAA_Level2.ViewModels
+namespace RAA_Level2.Utilities.BaseClasses
 {
     /// <summary>
     /// Base class that implements INotifyPropertyChanged interface for ViewModels.

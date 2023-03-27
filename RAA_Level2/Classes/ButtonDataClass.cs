@@ -25,7 +25,7 @@ namespace RAA_Level2
             Data.Image = BitmapToImageSource(smallImage);
 
             // set command availability
-            Data.AvailabilityClassName = "RAA_Level2.CommandAvailability";
+            Data.AvailabilityClassName = "RAA_Level2.Utilities.CommandAvailability";
         }
         private Assembly GetAssembly()
         {

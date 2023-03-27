@@ -20,7 +20,7 @@ namespace RAA_Level2
 
             SheetMakerView win = new SheetMakerView() 
             {
-                Width = 550,
+                Width = 600,
                 Height= 450,
                 WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                 Topmost= true,

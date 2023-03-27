@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RAA_Level2"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="550" MinWidth="550" MinHeight="470"
+             d:DesignHeight="450" d:DesignWidth="600" MinWidth="550" MinHeight="470"
              Title="Revit Add-in Academy" FontSize="14" Background="#f5f5f5">
     <Window.Resources>
         <ResourceDictionary Source="/Resources/Styles.xaml"/>
@@ -45,19 +45,23 @@
                     Margin="10,0,0,0"
                     ToolTip="Export sheet data to Excel"/>
         </StackPanel>
-        
-        <Grid Grid.Row="2" Margin="10,0,10,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="90"/>
-            </Grid.ColumnDefinitions>
-            <ListBox x:Name="lbxPickedViews" Grid.Column="0"
-                     MinHeight="130"
-                     BorderThickness="2"
-                     FontStyle="Italic"
-                     d:ItemsSource="{d:SampleData ItemCount=5}"
-                     ToolTip="Viewports to renumber"/>
-        </Grid>
+        <DataGrid x:Name="gridNewSheets" Grid.Row="2" Margin="10,0,10,0"
+                  GridLinesVisibility="All"
+                  AlternatingRowBackground="AliceBlue"
+                  CanUserAddRows="True"
+                  CanUserReorderColumns="True"
+                  SelectionMode="Extended"
+                  AutoGenerateColumns="False"
+                  EnableColumnVirtualization="False"
+                  EnableRowVirtualization="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Sheet #" Width="100" IsReadOnly="False"/>
+                <DataGridTextColumn Header="Sheet Name" Width="*" IsReadOnly="False"/>
+                <DataGridTextColumn Header="Is Placeholder?" Width="104" IsReadOnly="False"/>
+                <DataGridComboBoxColumn Header="Titleblock" Width="*" IsReadOnly="False"/>
+                <DataGridComboBoxColumn Header="View On Sheet" Width="*" IsReadOnly="False"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <!-- Footer -->
         <StackPanel Grid.Row="3"
