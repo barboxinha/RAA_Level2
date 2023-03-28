@@ -2,6 +2,8 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RAA_Level2.Models;
+using RAA_Level2.ViewModels;
 using System;
 using System.Reflection;
 #endregion
@@ -14,21 +16,29 @@ namespace RAA_Level2
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication uiapp = commandData.Application;
-            UIDocument uidoc = uiapp.ActiveUIDocument;
-            Document doc = uidoc.Document;
-
-            SheetMakerView win = new SheetMakerView() 
+            try
             {
-                Width = 600,
-                Height= 450,
-                WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
-                Topmost= true,
-            };
+                UIApplication uiapp = commandData.Application;
+                SheetMakerModel model = new SheetMakerModel(uiapp);
+                SheetMakerViewModel viewModel = new SheetMakerViewModel(model);
 
-            win.ShowDialog();
+                SheetMakerView view = new SheetMakerView
+                {
+                    Width = 600,
+                    Height = 480,
+                    WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
+                    Topmost = true,
+                    DataContext= viewModel
+                };
 
-            return Result.Succeeded;
+                view.ShowDialog();
+
+                return Result.Succeeded;
+            }
+            catch (Exception)
+            {
+                return Result.Failed;
+            }
         }
 
         public static String GetMethod()
