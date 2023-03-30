@@ -1,14 +1,9 @@
 ﻿#region Namespaces
-using Autodesk.Revit.Creation;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RAA_Level2.Classes;
 using RAA_Level2.Utilities.BaseClasses;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace RAA_Level2.Models
@@ -19,7 +14,7 @@ namespace RAA_Level2.Models
         { 
         }
 
-        public void SetNewSheetParameters(ViewSheet sheet, NewSheetWrapper newSheet)
+        private void SetNewSheetParameters(ViewSheet sheet, NewSheetWrapper newSheet)
         {
             string newSheetNum = newSheet.SheetNumber;
             string newSheetName = newSheet.SheetName;
@@ -30,9 +25,32 @@ namespace RAA_Level2.Models
             sheetNameParam.Set(newSheetName);
         }
 
-        public void CreateNewSheets(IEnumerable<NewSheetWrapper> newSheets)
+        private void AddViewToSheet(View view, ViewSheet placementSheet)
         {
-            Category viewSheetCategory = Category.GetCategory(Doc, BuiltInCategory.OST_Sheets);
+            if (view is null)
+            {
+                return;
+            }
+
+            if (Viewport.CanAddViewToSheet(Doc, placementSheet.Id, view.Id))
+            {
+                //TODO - Calculate sheet center.
+                XYZ sheetCenter = new XYZ(0, 0, 0);
+
+                if (view.ViewType != ViewType.Schedule)
+                {
+                    Viewport placedView = Viewport.Create(Doc, placementSheet.Id, view.Id, sheetCenter);
+                }
+                else
+                {
+                    ScheduleSheetInstance placedSchedule = ScheduleSheetInstance.Create(Doc, placementSheet.Id, view.Id, sheetCenter);
+                }
+            }
+        }
+
+        public IList<ViewSheet> CreateNewSheets(IEnumerable<NewSheetWrapper> newSheets)
+        {
+            IList<ViewSheet> createdSheets = new List<ViewSheet>();
 
             using (Transaction t = new Transaction(Doc))
             {
@@ -46,15 +64,20 @@ namespace RAA_Level2.Models
                             ViewSheet.CreatePlaceholder(Doc) : 
                             ViewSheet.Create(Doc, newSheet.TitleblockId);
 
-                    // Set parameter values after sheet creation
+                    // Set parameter values and place views after sheet creation
                     if (sheet != null)
                     {
                         SetNewSheetParameters(sheet, newSheet);
+                        AddViewToSheet(newSheet.ViewOnSheet, sheet);
                     }
+
+                    createdSheets.Add(sheet);
                 }
 
                 t.Commit();
             }
+
+            return createdSheets;
         }
     }
 }
