@@ -28,7 +28,7 @@ namespace RAA_Level2
                     Height = 480,
                     WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
                     Topmost = true,
-                    DataContext= viewModel
+                    DataContext = viewModel
                 };
 
                 view.ShowDialog();

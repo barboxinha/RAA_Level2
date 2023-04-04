@@ -60,7 +60,8 @@
     <Compile Include="App.cs" />
     <Compile Include="Classes\ButtonDataClass.cs" />
     <Compile Include="Classes\DelegateCommand.cs" />
-    <Compile Include="Classes\NewSheetWrapper.cs" />
+    <Compile Include="Models\ElementWrapper.cs" />
+    <Compile Include="Models\NewSheetWrapper.cs" />
     <Compile Include="Forms\SheetMakerView.xaml.cs">
       <DependentUpon>SheetMakerView.xaml</DependentUpon>
     </Compile>

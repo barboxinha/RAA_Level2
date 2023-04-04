@@ -1,13 +1,7 @@
 ﻿#region Namespaces
-using RAA_Level2.Classes;
 using RAA_Level2.Models;
 using RAA_Level2.Utilities.BaseClasses;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace RAA_Level2.ViewModels
@@ -24,11 +18,19 @@ namespace RAA_Level2.ViewModels
             set { _newSheets = value; RaisePropertyChanged(); }
         }
 
+        private ObservableCollection<ElementWrapper> _titleblocks;
+        public ObservableCollection<ElementWrapper> Titleblocks 
+        {
+            get { return _titleblocks; }
+            set { _titleblocks = value; RaisePropertyChanged(); } 
+        }
 
         public SheetMakerViewModel(SheetMakerModel model) 
         {
             _model = model;
             NewSheets = new ObservableCollection<NewSheetWrapper>();
+            Titleblocks = Model.CollectTitleblocks();
+
             NewSheetWrapper newSheet = new NewSheetWrapper
             {
                 SheetNumber = "A101",

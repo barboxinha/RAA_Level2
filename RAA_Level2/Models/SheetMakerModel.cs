@@ -1,9 +1,10 @@
 ﻿#region Namespaces
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RAA_Level2.Classes;
 using RAA_Level2.Utilities.BaseClasses;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 #endregion
 
 namespace RAA_Level2.Models
@@ -12,6 +13,14 @@ namespace RAA_Level2.Models
     {
         public SheetMakerModel(UIApplication uiApp) : base(uiApp) 
         { 
+        }
+
+        public ObservableCollection<ElementWrapper> CollectTitleblocks()
+        {
+            List<FamilySymbol> titleblocks = Utils.GetAllTitleblocks(Doc) as List<FamilySymbol>;
+            var sortedTitleblocks = titleblocks.Select(x => new ElementWrapper(x)).OrderBy(x => x.FamilyName);
+
+            return new ObservableCollection<ElementWrapper>(sortedTitleblocks);
         }
 
         private void SetNewSheetParameters(ViewSheet sheet, NewSheetWrapper newSheet)
@@ -34,8 +43,7 @@ namespace RAA_Level2.Models
 
             if (Viewport.CanAddViewToSheet(Doc, placementSheet.Id, view.Id))
             {
-                //TODO - Calculate sheet center.
-                XYZ sheetCenter = new XYZ(0, 0, 0);
+                XYZ sheetCenter = Utils.GetViewCenter(placementSheet);
 
                 if (view.ViewType != ViewType.Schedule)
                 {

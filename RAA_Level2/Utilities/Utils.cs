@@ -72,5 +72,36 @@ namespace RAA_Level2
 
             return parameterValue;
         }
+
+        internal static IList<FamilySymbol> GetAllTitleblocks(Document doc)
+        {
+            IList<FamilySymbol> titleblocks = new FilteredElementCollector(doc)
+                                                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                 .WhereElementIsElementType()
+                                                 .Cast<FamilySymbol>()
+                                                 .ToList();
+            
+            return titleblocks;
+        }
+
+        /// <summary>
+        /// Calculates the center point of a given View.
+        /// </summary>
+        /// <param name="view">View to get the center point from.</param>
+        /// <returns>The center point of the given View.</returns>
+        internal static XYZ GetViewCenter(View view)
+        {
+            if (view != null)
+            {
+                BoundingBoxUV outline = view.Outline;
+                UV center = new UV();
+                center = (outline.Min - outline.Max) * 0.5;
+                XYZ viewCenter = new XYZ(center.U, center.V, 0);
+
+                return viewCenter;
+            }
+
+            return null;
+        }
     }
 }
