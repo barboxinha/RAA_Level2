@@ -56,36 +56,57 @@ namespace RAA_Level2.Models
             }
         }
 
-        public IList<ViewSheet> CreateNewSheets(IEnumerable<NewSheetWrapper> newSheets)
+        public void CreateNewSheets(IEnumerable<NewSheetWrapper> newSheets)
         {
-            IList<ViewSheet> createdSheets = new List<ViewSheet>();
+            List<ViewSheet> createdSheets = new List<ViewSheet>();
 
-            using (Transaction t = new Transaction(Doc))
+            using (Transaction trans = new Transaction(Doc))
             {
-                t.Start("Create New Sheets");
-
-                foreach (NewSheetWrapper newSheet in newSheets)
+                if (trans.Start("Create New Sheets") == TransactionStatus.Started)
                 {
-                    ViewSheet sheet = null;
-
-                    sheet = newSheet.IsPlaceholder ? 
-                            ViewSheet.CreatePlaceholder(Doc) : 
-                            ViewSheet.Create(Doc, newSheet.TitleblockId);
-
-                    // Set parameter values and place views after sheet creation
-                    if (sheet != null)
+                    foreach (NewSheetWrapper newSheet in newSheets)
                     {
-                        SetNewSheetParameters(sheet, newSheet);
-                        AddViewToSheet(newSheet.ViewOnSheet, sheet);
+                        ViewSheet sheet = null;
+                        sheet = newSheet.IsPlaceholder ?
+                                ViewSheet.CreatePlaceholder(Doc) :
+                                ViewSheet.Create(Doc, newSheet.TitleblockId);
+
+                        // ***** Set parameter values and place views after sheet creation *****
+                        if (sheet != null)
+                        {
+                            SetNewSheetParameters(sheet, newSheet);
+                            AddViewToSheet(newSheet.ViewOnSheet, sheet);
+                        }
+
+                        createdSheets.Add(sheet);
                     }
 
-                    createdSheets.Add(sheet);
+                    // ***** Report newly created sheets to user *****
+                    string taskMessage = "The following sheets were created successfully:\r\n";
+
+                    foreach (ViewSheet s in createdSheets)
+                    {
+                        taskMessage += $"{s.SheetNumber} // {s.LookupParameter("Sheet Name").AsString()}";
+                    }
+
+                    TaskDialog taskDialog = new TaskDialog("Revit Add-In Academy - SheetMaker");
+                    taskDialog.MainInstruction = taskMessage;
+                    taskDialog.MainContent = "Click [OK] to Accept the changes. [Cancel] to abort.";
+                    TaskDialogCommonButtons taskButtons = TaskDialogCommonButtons.Ok | TaskDialogCommonButtons.Cancel;
+                    taskDialog.CommonButtons = taskButtons;
+
+
+                    // ***** Give the user the ability to Accept or Cancel the Transaction *****
+                    if (taskDialog.Show() == TaskDialogResult.Ok)
+                    {
+                        trans.Commit();
+                    }
+                    else
+                    {
+                        trans.RollBack();
+                    }
                 }
-
-                t.Commit();
             }
-
-            return createdSheets;
         }
     }
 }

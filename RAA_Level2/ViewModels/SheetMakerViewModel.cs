@@ -1,7 +1,9 @@
 ﻿#region Namespaces
 using RAA_Level2.Models;
 using RAA_Level2.Utilities.BaseClasses;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 #endregion
 
 namespace RAA_Level2.ViewModels
@@ -39,6 +41,29 @@ namespace RAA_Level2.ViewModels
             };
 
             NewSheets.Add(newSheet);
+        }
+
+        private void OnAddSheetRow(Window win)
+        {
+            // TODO - Implement Command and button binding
+            int sheetCount = NewSheets.Count;
+            sheetCount++;
+            string sheetNum = Convert.ToString(sheetCount);
+            string prefix = sheetCount < 10 ? "A10" : "A1";
+
+            NewSheets.Add(new NewSheetWrapper { SheetNumber = prefix + sheetNum, SheetName = "NEW SHEET"});
+        }
+
+        private void OnRemoveSheetRow(Window win) 
+        {
+            // TODO - Implement Command and button binding
+
+        }
+
+        private void OnCancel(Window win)
+        {
+            // TODO - Implement Command and button binding
+            win.Close();
         }
     }
 }
