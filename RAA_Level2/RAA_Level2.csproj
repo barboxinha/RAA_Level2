@@ -72,6 +72,7 @@
       <DependentUpon>ViewRenumber.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\SheetMakerModel.cs" />
+    <Compile Include="Models\ViewWrapper.cs" />
     <Compile Include="ProjectSetupCommand.cs" />
     <Compile Include="Forms\ProjectSetup.xaml.cs">
       <DependentUpon>ProjectSetup.xaml</DependentUpon>

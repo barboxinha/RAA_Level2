@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,45 @@ namespace RAA_Level2
             }
 
             return parameterValue;
+        }
+
+        internal static List<ViewSheet> GetAllSheets(Document doc)
+        {
+            List<ViewSheet> sheets = new FilteredElementCollector(doc)
+                                        .OfCategory(BuiltInCategory.OST_Sheets)
+                                        .Cast<ViewSheet>()
+                                        .ToList();
+
+            return sheets;
+        }
+
+        internal static List<View> GetAllViews(Document doc)
+        {
+            List<View> views = new FilteredElementCollector(doc)
+                                  .OfCategory(BuiltInCategory.OST_Views)
+                                  .WhereElementIsNotElementType()
+                                  .Cast<View>()
+                                  .ToList();
+
+            return views;
+        }
+
+        internal static List<View> GetAllAvailableViews(Document doc) 
+        {
+            List<View> availableViews = new List<View>();
+            List<View> views = GetAllViews(doc);
+            List<ViewSheet> sheets = GetAllSheets(doc);
+            ElementId sheetId = sheets.Where(x => !x.IsPlaceholder).First().Id;
+
+            foreach (View view in views)
+            {
+                if ((!view.IsTemplate) && (!Viewport.CanAddViewToSheet(doc, sheetId, view.Id)))
+                {
+                    availableViews.Add(view);
+                }
+            }
+
+            return availableViews;
         }
 
         internal static IList<FamilySymbol> GetAllTitleblocks(Document doc)

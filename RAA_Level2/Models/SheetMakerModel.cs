@@ -23,6 +23,14 @@ namespace RAA_Level2.Models
             return new ObservableCollection<ElementWrapper>(sortedTitleblocks);
         }
 
+        public ObservableCollection<ViewWrapper> CollectAllAvailableViews()
+        {
+            List<View> availableViews = Utils.GetAllAvailableViews(Doc);
+            var sortedViews = availableViews.Select(x => new ViewWrapper(x)).OrderBy(x => x.ViewType);
+
+            return new ObservableCollection<ViewWrapper>(sortedViews);
+        }
+
         private void SetNewSheetParameters(ViewSheet sheet, NewSheetWrapper newSheet)
         {
             string newSheetNum = newSheet.SheetNumber;
@@ -71,7 +79,7 @@ namespace RAA_Level2.Models
                                 ViewSheet.CreatePlaceholder(Doc) :
                                 ViewSheet.Create(Doc, newSheet.TitleblockId);
 
-                        // ***** Set parameter values and place views after sheet creation *****
+                        // ***** Set parameter values and place views after sheet creation
                         if (sheet != null)
                         {
                             SetNewSheetParameters(sheet, newSheet);
@@ -81,7 +89,7 @@ namespace RAA_Level2.Models
                         createdSheets.Add(sheet);
                     }
 
-                    // ***** Report newly created sheets to user *****
+                    // ***** Report newly created sheets to user
                     string taskMessage = "The following sheets were created successfully:\r\n";
 
                     foreach (ViewSheet s in createdSheets)
@@ -96,7 +104,7 @@ namespace RAA_Level2.Models
                     taskDialog.CommonButtons = taskButtons;
 
 
-                    // ***** Give the user the ability to Accept or Cancel the Transaction *****
+                    // ***** Give the user the ability to Accept or Cancel the Transaction
                     if (taskDialog.Show() == TaskDialogResult.Ok)
                     {
                         trans.Commit();

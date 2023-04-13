@@ -4,7 +4,7 @@ namespace RAA_Level2.Models
 {
     public class ElementWrapper
     {
-        public ElementId Id { get; set; }
+        public ElementId Id { get; private set; }
         public string FamilyName { get; set; }
         public string FamilyType { get; set; }
         public string FamilyNameAndType { get; private set; }
