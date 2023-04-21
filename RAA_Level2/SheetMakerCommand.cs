@@ -1,11 +1,11 @@
 ﻿#region Namespaces
+using System;
+using System.Reflection;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RAA_Level2.Models;
 using RAA_Level2.ViewModels;
-using System;
-using System.Reflection;
 #endregion
 
 namespace RAA_Level2

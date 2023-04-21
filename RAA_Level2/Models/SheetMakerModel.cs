@@ -1,10 +1,10 @@
 ﻿#region Namespaces
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using RAA_Level2.Utilities.BaseClasses;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using RAA_Level2.Utilities.BaseClasses;
 #endregion
 
 namespace RAA_Level2.Models
@@ -79,7 +79,7 @@ namespace RAA_Level2.Models
                                 ViewSheet.CreatePlaceholder(Doc) :
                                 ViewSheet.Create(Doc, newSheet.TitleblockId);
 
-                        // ***** Set parameter values and place views after sheet creation
+                        // ***** Set parameter values and place views after sheet creation *****
                         if (sheet != null)
                         {
                             SetNewSheetParameters(sheet, newSheet);
@@ -89,7 +89,7 @@ namespace RAA_Level2.Models
                         createdSheets.Add(sheet);
                     }
 
-                    // ***** Report newly created sheets to user
+                    // ***** Report newly created sheets to user *****
                     string taskMessage = "The following sheets were created successfully:\r\n";
 
                     foreach (ViewSheet s in createdSheets)
@@ -104,7 +104,7 @@ namespace RAA_Level2.Models
                     taskDialog.CommonButtons = taskButtons;
 
 
-                    // ***** Give the user the ability to Accept or Cancel the Transaction
+                    // ***** Give the user the ability to Accept or Cancel the Transaction *****
                     if (taskDialog.Show() == TaskDialogResult.Ok)
                     {
                         trans.Commit();

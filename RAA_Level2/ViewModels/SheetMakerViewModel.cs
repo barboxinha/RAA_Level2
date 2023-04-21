@@ -1,9 +1,10 @@
 ﻿#region Namespaces
-using RAA_Level2.Models;
-using RAA_Level2.Utilities.BaseClasses;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using RAA_Level2.Classes;
+using RAA_Level2.Models;
+using RAA_Level2.Utilities.BaseClasses;
 #endregion
 
 namespace RAA_Level2.ViewModels
@@ -33,36 +34,43 @@ namespace RAA_Level2.ViewModels
             NewSheets = new ObservableCollection<NewSheetWrapper>();
             Titleblocks = Model.CollectTitleblocks();
 
-            NewSheetWrapper newSheet = new NewSheetWrapper
+            NewSheetWrapper initSheet = new NewSheetWrapper
             {
                 SheetNumber = "A101",
-                SheetName = "TEST SHEET NAME",
-                IsPlaceholder = true
+                SheetName = "NEW SHEET",
+                IsPlaceholder = false
             };
 
-            NewSheets.Add(newSheet);
+            NewSheets.Add(initSheet);
+
+            // ***** Register Commands *****
+            AddSheetCommand = new DelegateCommand(OnAddSheetRow);
         }
 
-        private void OnAddSheetRow(Window win)
+        #region Commands
+        public DelegateCommand AddSheetCommand { get; }
+        public DelegateCommand RemoveSheetCommand { get; }
+        #endregion
+
+        private void OnAddSheetRow(object parameter)
         {
-            // TODO - Implement Command and button binding
             int sheetCount = NewSheets.Count;
             sheetCount++;
             string sheetNum = Convert.ToString(sheetCount);
             string prefix = sheetCount < 10 ? "A10" : "A1";
-
             NewSheets.Add(new NewSheetWrapper { SheetNumber = prefix + sheetNum, SheetName = "NEW SHEET"});
         }
 
-        private void OnRemoveSheetRow(Window win) 
+        private void OnRemoveSheetRow(object parameter) 
         {
             // TODO - Implement Command and button binding
 
         }
 
-        private void OnCancel(Window win)
+        private void OnCancel(object parameter)
         {
             // TODO - Implement Command and button binding
+            var win = parameter as Window;
             win.Close();
         }
     }
