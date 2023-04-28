@@ -1,7 +1,6 @@
 ﻿#region Namespaces
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using RAA_Level2.Classes;
 using RAA_Level2.Models;
 using RAA_Level2.Utilities.BaseClasses;
@@ -28,6 +27,13 @@ namespace RAA_Level2.ViewModels
             set { _titleblocks = value; RaisePropertyChanged(); } 
         }
 
+        private NewSheetWrapper _selectedSheet;
+        public NewSheetWrapper SelectedSheet
+        {
+            get { return _selectedSheet; }
+            set { _selectedSheet = value; RaisePropertyChanged(); }
+        }
+
         public SheetMakerViewModel(SheetMakerModel model) 
         {
             _model = model;
@@ -45,6 +51,7 @@ namespace RAA_Level2.ViewModels
 
             // ***** Register Commands *****
             AddSheetCommand = new DelegateCommand(OnAddSheetRow);
+            RemoveSheetCommand = new DelegateCommand(OnRemoveSheetRow);
         }
 
         #region Commands
@@ -63,15 +70,19 @@ namespace RAA_Level2.ViewModels
 
         private void OnRemoveSheetRow(object parameter) 
         {
-            // TODO - Implement Command and button binding
+            if (SelectedSheet != null)
+            {
+                NewSheets.Remove(SelectedSheet);
+            }
+            else
+            {
+                int lastSheetRowIndex = NewSheets.Count - 1;
 
-        }
-
-        private void OnCancel(object parameter)
-        {
-            // TODO - Implement Command and button binding
-            var win = parameter as Window;
-            win.Close();
+                if (lastSheetRowIndex >= 0)
+                {
+                    NewSheets.RemoveAt(lastSheetRowIndex);
+                }
+            }   
         }
     }
 }

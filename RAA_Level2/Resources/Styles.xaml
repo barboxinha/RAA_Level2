@@ -24,4 +24,7 @@
         <Setter Property="IsCancel" Value="True"/>
         <Setter Property="Content" Value="Cancel"/>
     </Style>
+    <Style x:Key="SheetMakerDataGridStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="SelectedItem" Value="{Binding SelectedSheet}"/>
+    </Style>
 </ResourceDictionary>
