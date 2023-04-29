@@ -1,9 +1,8 @@
-﻿<Window
+﻿<Window x:Class="RAA_Level2.SheetMakerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="RAA_Level2.SheetMakerView"
         x:Name="SheetMakerWin"
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="600" MinWidth="550" MinHeight="510"
@@ -56,7 +55,6 @@
                   EnableColumnVirtualization="False"
                   EnableRowVirtualization="False"
                   VerticalScrollBarVisibility="Auto"
-                  Style="{StaticResource SheetMakerDataGridStyle}"
                   ItemsSource="{Binding NewSheets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sheet #" 
@@ -100,6 +98,7 @@
                     FontWeight="Bold"
                     Margin="10,0,0,0"
                     ToolTip="Remove sheet row"
+                    CommandParameter="{Binding ElementName=gridNewSheets, Path=SelectedItems}"
                     Command="{Binding RemoveSheetCommand}"/>
         </StackPanel>
         <StackPanel Grid.Row="3" 

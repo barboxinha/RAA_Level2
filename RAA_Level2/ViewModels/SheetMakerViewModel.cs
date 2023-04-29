@@ -1,6 +1,8 @@
 ﻿#region Namespaces
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using RAA_Level2.Classes;
 using RAA_Level2.Models;
 using RAA_Level2.Utilities.BaseClasses;
@@ -11,34 +13,26 @@ namespace RAA_Level2.ViewModels
     public class SheetMakerViewModel : ViewModelBase
     {
         private readonly SheetMakerModel _model;
-        public SheetMakerModel Model => _model;
-
+        private ObservableCollection<ElementWrapper> _titleblocks;
         private ObservableCollection<NewSheetWrapper> _newSheets;
+
         public ObservableCollection<NewSheetWrapper> NewSheets
         {
             get { return _newSheets; }
             set { _newSheets = value; RaisePropertyChanged(); }
         }
-
-        private ObservableCollection<ElementWrapper> _titleblocks;
+        
         public ObservableCollection<ElementWrapper> Titleblocks 
         {
             get { return _titleblocks; }
             set { _titleblocks = value; RaisePropertyChanged(); } 
         }
 
-        private NewSheetWrapper _selectedSheet;
-        public NewSheetWrapper SelectedSheet
-        {
-            get { return _selectedSheet; }
-            set { _selectedSheet = value; RaisePropertyChanged(); }
-        }
-
         public SheetMakerViewModel(SheetMakerModel model) 
         {
             _model = model;
             NewSheets = new ObservableCollection<NewSheetWrapper>();
-            Titleblocks = Model.CollectTitleblocks();
+            Titleblocks = _model.CollectTitleblocks();
 
             NewSheetWrapper initSheet = new NewSheetWrapper
             {
@@ -70,19 +64,32 @@ namespace RAA_Level2.ViewModels
 
         private void OnRemoveSheetRow(object parameter) 
         {
-            if (SelectedSheet != null)
+            try
             {
-                NewSheets.Remove(SelectedSheet);
-            }
-            else
-            {
-                int lastSheetRowIndex = NewSheets.Count - 1;
+                System.Collections.IList items = (System.Collections.IList)parameter;
+                List<NewSheetWrapper> selectedSheets = items.Cast<NewSheetWrapper>().ToList();
 
-                if (lastSheetRowIndex >= 0)
+                if (selectedSheets.Any())
                 {
-                    NewSheets.RemoveAt(lastSheetRowIndex);
+                    foreach (NewSheetWrapper sheet in selectedSheets)
+                    {
+                        NewSheets.Remove(sheet);
+                    }
                 }
-            }   
+                else
+                {
+                    int lastSheetRowIndex = NewSheets.Count - 1;
+
+                    if (lastSheetRowIndex >= 0)
+                    {
+                        NewSheets.RemoveAt(lastSheetRowIndex);
+                    }
+                }
+            }
+            catch (InvalidCastException)
+            {
+                
+            }
         }
     }
 }
