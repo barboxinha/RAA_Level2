@@ -90,11 +90,11 @@ namespace RAA_Level2.Models
                     }
 
                     // ***** Report newly created sheets to user *****
-                    string taskMessage = "The following sheets were created successfully:\r\n";
+                    string taskMessage = "The following sheets were created successfully:";
 
                     foreach (ViewSheet s in createdSheets)
                     {
-                        taskMessage += $"{s.SheetNumber} // {s.LookupParameter("Sheet Name").AsString()}";
+                        taskMessage += $"\r\n{s.SheetNumber} // {s.LookupParameter("Sheet Name").AsString()}";
                     }
 
                     TaskDialog taskDialog = new TaskDialog("Revit Add-In Academy - SheetMaker");

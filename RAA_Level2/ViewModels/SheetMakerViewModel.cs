@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using RAA_Level2.Classes;
 using RAA_Level2.Models;
 using RAA_Level2.Utilities.BaseClasses;
@@ -46,11 +47,13 @@ namespace RAA_Level2.ViewModels
             // ***** Register Commands *****
             AddSheetCommand = new DelegateCommand(OnAddSheetRow);
             RemoveSheetCommand = new DelegateCommand(OnRemoveSheetRow);
+            CloseCommand = new DelegateCommand(OnClose);
         }
 
         #region Commands
         public DelegateCommand AddSheetCommand { get; }
         public DelegateCommand RemoveSheetCommand { get; }
+        public DelegateCommand CloseCommand { get; }
         #endregion
 
         private void OnAddSheetRow(object parameter)
@@ -90,6 +93,12 @@ namespace RAA_Level2.ViewModels
             {
                 
             }
+        }
+
+        private void OnClose(object parameter)
+        {
+            Window win = parameter as Window;
+            win.Close();
         }
     }
 }

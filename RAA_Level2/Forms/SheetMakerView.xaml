@@ -108,7 +108,9 @@
                     Margin="10">
             <Button x:Name="btnOK" Style="{StaticResource OkButtonStyle}"/>
             <Button x:Name="btnCancel" Style="{StaticResource CancelButtonStyle}" 
-                    Margin="10,0,0,0"/>
+                    Margin="10,0,0,0"
+                    CommandParameter="{Binding ElementName=SheetMakerWin}"
+                    Command="{Binding CloseCommand}"/>
         </StackPanel>
         <StatusBar Grid.Row="4">
             <StatusBarItem Background="SlateGray"/>
